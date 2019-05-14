@@ -1,0 +1,59 @@
+syntax = "proto3";
+// option java_package="io.grpc.examples";
+//option go_package="hs";
+
+package helloworld;
+
+// 定义用户注册类型
+enum UserRegisterType{
+    Unknow = 0;
+    GuestRegister =1;
+    NormalRegister =2 ;
+}
+
+// 定义渠道类型
+enum GameChannelType{
+    option allow_alias=true;
+    UNKNOW=0;
+    IOS=1;
+    Android=2;
+    VIVO=3;
+    OPPO=3;
+}
+
+
+// The greeter service definition.
+service Greeter{
+    // send a greeting
+    rpc SayHello(HelloRequest) returns (HelloReply);
+    //rpc Login(LoginRequest) returns (LoginReply);
+    rpc CanSet(CanSetRequest)returns(CanSetReply);
+    rpc CanUpdate(CanUpdateRequest) returns (CanUpdateReply);
+}
+
+message CanUpdateRequest{
+    string username = 1;
+}
+message CanUpdateReply{
+    bool can_update = 1;
+}
+
+
+message CanSetRequest{}
+message CanSetReply{
+    bool can_set=1;
+}
+
+
+message list{
+    repeated int32 id=1;
+}
+
+// The request message containing the user's name
+message HelloRequest{
+    string name =1 ;
+}
+// The response message containing the greetings
+message HelloReply{
+    string message =1;
+}

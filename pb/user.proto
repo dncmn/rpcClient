@@ -1,0 +1,119 @@
+syntax = "proto3";
+package helloworld;
+
+service User{
+    rpc Register(RegisterRequest) returns (RegisterReply) {}; // 用户注册
+    rpc Login(LoginRequest) returns (LoginReply){}; // 用户登录
+    rpc UserByUID(UserByUIDRequest)returns (UserByUIDReply){} ; // 根据uid获取用户信息
+}
+
+
+message UserByUIDRequest{
+    string uid=1;
+}
+message UserByUIDReply{
+   UserInfo user=1;
+   UserRole user_role=2;
+}
+
+message UserInfo{
+    string id=1;
+    string device_id=2;
+    uint64 level=3;
+    uint64 energy=4;
+    uint64 app_uid=5;
+    string nickname=6;
+    string avatar=7;
+    int32 age=8;
+    int32 sex=9;
+    string profile=10;
+    int64 country=11;
+    string city=12;
+    uint64 count=13;
+    uint64 new_guidance=14;
+}
+
+
+message LoginRequest{
+    string username = 1;
+    uint64 client_date = 2;
+    string device_new=3;
+    string platform=4;
+    string version=5;
+    string password=6;
+    string device=7;
+    string game_device_id=8;
+    int64 country=9;
+}
+
+
+
+
+message LoginReply{
+    string uid =1;
+    uint64 app_uid=2;
+    UserRole user_role=3;
+    EquipResp   wearing_equip=4;
+    repeated ShopItemInfo equip_list=5;
+}
+
+
+message ShopItemInfo{
+    int64 item_id=1;
+    int64 price=2;
+    bool is_buy=3;
+}
+
+// 返回得装备信息列表
+message EquipResp{
+    repeated EquipInfo equip_list=1;
+    uint64 plastommer_id=2;
+}
+
+// 一件装备的详细信息
+message EquipInfo{
+    int64 itemType=1;
+    int64 itemID=2;
+}
+
+message UserRole{
+    uint64 emotion_id =1;
+    uint64 model_id=2;
+}
+
+
+
+message RegisterRequest{
+    string username=1;
+    string password=2;
+    int32 country=3;
+    string phone_num=4;
+}
+
+message RegisterReply{
+    string uid =1;
+   // map<string,repeated int>foo=2
+}
+
+message Profile{
+    oneof avatar{
+        string image_url = 1;
+        bytes image_data=2;
+    }
+}
+
+
+//  演示  key:value----> int32:map[int32]int32
+message SearchRequest{
+    enum Corpus{
+        UNIVERSAL=0;
+        WEB=1;
+        IMAGES=2;
+    }
+    Corpus corpus=1;
+    map<int32,ListDate> list=2;
+}
+
+message ListDate{
+    map<int32,int32> list=1;
+}
